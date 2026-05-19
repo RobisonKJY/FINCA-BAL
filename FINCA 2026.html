@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Finca Valparaíso">
+<title>Finca Valparaíso 🐄</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f5f2ed;--surface:#fff;--surface2:#f0ede7;--border:#e5e0d8;
+  --text:#1a1a1a;--text2:#6b6560;--text3:#a09890;
+  --green:#2d6a4f;--green-l:#e8f4ed;--green-m:#52b788;
+  --red:#c0392b;--red-l:#fdecea;
+  --amber:#b5590a;--amber-l:#fef3e2;
+  --blue:#1a5276;--blue-l:#eaf2f8;
+  --purple:#6c3483;--purple-l:#f5eef8;
+  --teal:#0e7265;--teal-l:#e0f5f1;
+  --r:12px;--r-sm:8px;--shadow:0 2px 12px rgba(0,0,0,0.07);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+.hdr{background:var(--green);color:#fff;padding:14px 18px 16px;position:sticky;top:0;z-index:200}
+.hdr h1{font-size:19px;font-weight:600}
+.hdr p{font-size:12px;opacity:0.8;margin-top:1px}
+.nav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;position:sticky;top:68px;z-index:199}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;padding:11px 14px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--text2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.nav button.active{color:var(--green);border-bottom-color:var(--green)}
+.tab{display:none;padding:14px 14px 90px}
+.tab.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{background:var(--surface);border-radius:var(--r);padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat-n{font-size:24px;font-weight:600;color:var(--green)}
+.stat-l{font-size:11px;color:var(--text2);margin-top:1px;line-height:1.3}
+.card{background:var(--surface);border-radius:var(--r);padding:13px 14px;box-shadow:var(--shadow);margin-bottom:8px;cursor:pointer;transition:transform 0.1s}
+.card:active{transform:scale(0.98)}
+.card-row{display:flex;align-items:center;gap:11px}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;font-family:'DM Mono',monospace;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.av-h{background:var(--green-l);color:var(--green)}
+.av-m{background:#edf0f5;color:#4a5568}
+.av-dead{background:var(--red-l);color:var(--red)}
+.av-sale{background:var(--amber-l);color:var(--amber)}
+.card-name{font-size:15px;font-weight:500}
+.card-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.card-right{margin-left:auto;text-align:right;flex-shrink:0}
+.card-peso{font-size:14px;font-weight:600}
+.card-fecha{font-size:11px;color:var(--text3);margin-top:1px}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+.bg-h{background:var(--green-l);color:var(--green)}
+.bg-m{background:#edf0f5;color:#4a5568}
+.bg-cria{background:#e8f0fe;color:var(--blue)}
+.bg-dead{background:var(--red-l);color:var(--red)}
+.bg-sale{background:var(--amber-l);color:var(--amber)}
+.bg-vac{background:var(--teal-l);color:var(--teal)}
+.bg-med{background:var(--purple-l);color:var(--purple)}
+.bg-prenz{background:#fce4ec;color:#c2185b}
+.search{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--surface);color:var(--text);margin-bottom:10px;outline:none}
+.search:focus{border-color:var(--green)}
+label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:4px;margin-top:12px}
+input,select,textarea{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--surface);color:var(--text);outline:none;appearance:none;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+.btn{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);cursor:pointer;margin-top:8px;transition:background 0.1s}
+.btn:active{background:var(--surface2)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-green:active{background:#245a40}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-sm{width:auto;padding:7px 14px;font-size:13px;margin-top:0}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:600;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:4px}
+.modal-close{float:right;background:var(--surface2);border:none;border-radius:50%;width:30px;height:30px;font-size:18px;cursor:pointer;color:var(--text2);line-height:30px;text-align:center}
+.det-hdr{background:var(--green);color:#fff;padding:14px 18px;margin:-14px -14px 14px;display:flex;align-items:center;gap:12px}
+.det-avatar{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;overflow:hidden}
+.det-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.det-name{font-size:19px;font-weight:600}
+.det-sub{font-size:13px;opacity:0.8;margin-top:2px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border:none}
+.info-label{font-size:13px;color:var(--text2)}
+.info-val{font-size:14px;font-weight:500;text-align:right;max-width:65%}
+.pesos-list{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 4px}
+.peso-chip{background:var(--surface2);border-radius:var(--r-sm);padding:7px 12px;font-size:13px;font-weight:500}
+.peso-chip span{font-size:11px;color:var(--text2);display:block;margin-top:1px}
+.back-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;margin-right:8px;flex-shrink:0}
+.total-banner{border-radius:var(--r);padding:13px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.tb-green{background:var(--green-l)}
+.tb-red{background:var(--red-l)}
+.tb-amber{background:var(--amber-l)}
+.tb-teal{background:var(--teal-l)}
+.tb-label{font-size:13px;font-weight:500}
+.tb-val{font-size:18px;font-weight:600}
+.sec-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase;margin:16px 0 8px}
+.empty{text-align:center;color:var(--text3);padding:30px;font-size:14px}
+.fab{position:fixed;bottom:24px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 4px 16px rgba(45,106,79,0.4);z-index:300;display:flex;align-items:center;justify-content:center}
+.fab:active{background:#245a40;transform:scale(0.95)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.danger-zone{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+/* GRAFICA */
+.chart-wrap{background:var(--surface2);border-radius:var(--r-sm);padding:12px;margin:10px 0;overflow:hidden}
+canvas{max-width:100%}
+/* ALERTA VACUNA */
+.alerta-vac{background:#fff3e0;border-left:4px solid #ff9800;border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px}
+.alerta-vac.urgente{background:var(--red-l);border-left-color:var(--red)}
+/* FOTO */
+.foto-preview{width:100%;height:160px;object-fit:cover;border-radius:var(--r-sm);margin-top:8px;display:none}
+.foto-preview.show{display:block}
+.foto-thumb{width:52px;height:52px;object-fit:cover;border-radius:50%;border:2px solid #fff}
+/* TABS DETALLE */
+.det-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin:0 -14px;padding:0 14px;overflow-x:auto}
+.det-tabs::-webkit-scrollbar{display:none}
+.det-tab{flex:none;padding:8px 14px;font-size:13px;font-weight:500;color:var(--text2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.det-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.det-section{display:none;padding-top:12px}
+.det-section.active{display:block}
+/* POTRERO */
+.potrero-card{background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-bottom:10px}
+.potrero-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.potrero-name{font-size:16px;font-weight:600;color:var(--green)}
+.potrero-count{font-size:12px;color:var(--text2);background:var(--green-l);padding:3px 10px;border-radius:20px}
+.chip-animal{display:inline-block;background:var(--surface2);border-radius:20px;padding:3px 10px;font-size:12px;margin:2px}
+/* PRINT */
+@media print{
+  .nav,.fab,.hdr,.btn,.modal-overlay{display:none!important}
+  .tab{display:block!important;padding:10px}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🐄 Finca Valparaíso</h1>
+  <p>El Cairo, Valle del Cauca — Robinson Aristizábal</p>
+</div>
+
+<div class="nav" id="nav">
+  <button class="active" onclick="showTab('resumen',this)">Resumen</button>
+  <button onclick="showTab('inventario',this)">Inventario</button>
+  <button onclick="showTab('crias',this)">Crías</button>
+  <button onclick="showTab('fallecidos',this)">Fallecidos</button>
+  <button onclick="showTab('ventas',this)">Ventas</button>
+  <button onclick="showTab('gastos',this)">Gastos</button>
+  <button onclick="showTab('vacunas',this)">💉 Vacunas</button>
+  <button onclick="showTab('preniez',this)">🤰 Preñez</button>
+  <button onclick="showTab('potreros',this)">🌿 Potreros</button>
+  <button onclick="showTab('finano',this)">📈 Fin Año</button>
+</div>
+
+<!-- RESUMEN -->
+<div id="tab-resumen" class="tab active">
+  <div class="stats" id="stats-grid"></div>
+  <div id="alertas-resumen"></div>
+  <div class="sec-title">Ganaderías</div>
+  <div id="fincas-list"></div>
+  <div class="sec-title">Acciones</div>
+  <button class="btn btn-green" onclick="showTab('inventario',document.querySelectorAll('.nav button')[1]);openModal('modal-animal')">+ Registrar nuevo animal</button>
+  <button class="btn" onclick="showTab('inventario',document.querySelectorAll('.nav button')[1])">Ver inventario completo</button>
+  <button class="btn" onclick="exportarPDF()">📄 Exportar resumen PDF</button>
+</div>
+
+<!-- INVENTARIO -->
+<div id="tab-inventario" class="tab">
+  <div id="inv-list-view">
+    <input class="search" type="search" id="search-inv" placeholder="Buscar por nombre, número o ganadería..." oninput="renderInv()">
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <button class="btn btn-sm" style="background:var(--green-l);color:var(--green);border-color:var(--green-l)" onclick="setFiltroTipo('todos',this)">Todos</button>
+      <button class="btn btn-sm" style="border-color:var(--border)" onclick="setFiltroTipo('E',this)">♀ Hembras</button>
+      <button class="btn btn-sm" style="border-color:var(--border)" onclick="setFiltroTipo('M',this)">♂ Machos</button>
+    </div>
+    <div id="inv-list"></div>
+  </div>
+  <div id="inv-detail-view" style="display:none"></div>
+  <button class="fab" id="fab-inv" onclick="openModal('modal-animal')">+</button>
+</div>
+
+<!-- CRIAS -->
+<div id="tab-crias" class="tab">
+  <div id="crias-content"></div>
+  <button class="fab" onclick="openModal('modal-cria')">+</button>
+</div>
+
+<!-- FALLECIDOS -->
+<div id="tab-fallecidos" class="tab">
+  <div id="fallecidos-content"></div>
+  <button class="fab" onclick="openModal('modal-fallecido')">+</button>
+</div>
+
+<!-- VENTAS -->
+<div id="tab-ventas" class="tab">
+  <div id="ventas-content"></div>
+  <button class="fab" onclick="openModal('modal-venta')">+</button>
+</div>
+
+<!-- GASTOS -->
+<div id="tab-gastos" class="tab">
+  <div id="gastos-content"></div>
+  <button class="fab" onclick="openModal('modal-gasto')">+</button>
+</div>
+
+<!-- VACUNAS -->
+<div id="tab-vacunas" class="tab">
+  <div id="alertas-vacunas"></div>
+  <div id="vacunas-content"></div>
+  <button class="fab" onclick="openModal('modal-vacuna')">+</button>
+</div>
+
+<!-- PREÑEZ -->
+<div id="tab-preniez" class="tab">
+  <div id="preniez-content"></div>
+  <button class="fab" onclick="openModal('modal-preniez')">+</button>
+</div>
+
+<!-- POTREROS -->
+<div id="tab-potreros" class="tab">
+  <div id="potreros-content"></div>
+  <button class="fab" onclick="openModal('modal-potrero')">+</button>
+</div>
+
+<!-- FIN DE AÑO -->
+<div id="tab-finano" class="tab">
+  <div id="finano-content"></div>
+  <button class="btn" style="margin-top:8px" onclick="exportarPDF()">📄 Exportar PDF</button>
+</div>
+
+<!-- ===== MODALS ===== -->
+
+<!-- MODAL ANIMAL -->
+<div class="modal-overlay" id="modal-animal">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-animal')">×</button>
+  <div class="modal-title" id="modal-animal-title">Nuevo Animal</div>
+  <input type="hidden" id="edit-animal-id">
+  <label>📷 Foto del animal</label>
+  <input type="file" id="a-foto" accept="image/*" onchange="previewFoto(this,'a-foto-preview')">
+  <img id="a-foto-preview" class="foto-preview">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div><label>Número / ID</label><input type="number" id="a-num" placeholder="Ej: 101"></div>
+    <div><label>Sexo</label><select id="a-tipo"><option value="E">♀ Hembra</option><option value="M">♂ Macho</option></select></div>
+  </div>
+  <label>Nombre</label><input type="text" id="a-nombre" placeholder="Ej: Esperanza">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div><label>Padre</label><input type="text" id="a-padre" placeholder="Ej: 22 Mono"></div>
+    <div><label>Madre</label><input type="text" id="a-madre" placeholder="Ej: 5 Paloma"></div>
+  </div>
+  <label>Ganadería / Finca</label><input type="text" id="a-finca" placeholder="Ej: El Control" list="fincas-list-dl">
+  <datalist id="fincas-list-dl"></datalist>
+  <label>Potrero</label><input type="text" id="a-potrero" placeholder="Ej: Potrero 1" list="potreros-list-dl">
+  <datalist id="potreros-list-dl"></datalist>
+  <label>⚖️ Pesajes — puede agregar varios</label>
+  <div id="a-pesos-container"></div>
+  <button type="button" onclick="addPesoRow()" style="background:var(--green-l);color:var(--green);border:1px dashed var(--green);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;width:100%;margin-bottom:4px">+ Agregar pesaje</button>
+  <label>🍼 Crías (una por línea: número nombre)</label>
+  <textarea id="a-crias" rows="3" placeholder="Ej:
+24 Sendero
+17 Pepe
+15 Bailarina"></textarea>
+  <label>Observaciones</label><input type="text" id="a-obs" placeholder="Opcional">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveAnimal()">Guardar animal</button>
+</div>
+</div>
+
+<!-- MODAL PESAJE -->
+<div class="modal-overlay" id="modal-pesaje">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-pesaje')">×</button>
+  <div class="modal-title">Registrar Pesaje</div>
+  <div class="modal-sub" id="pesaje-animal-name">Animal</div>
+  <input type="hidden" id="pesaje-animal-id">
+  <label>Peso (kg)</label><input type="number" id="p-kg" placeholder="Ej: 345">
+  <label>Fecha</label><input type="date" id="p-fecha">
+  <button class="btn btn-green" style="margin-top:16px" onclick="savePesaje()">Guardar pesaje</button>
+</div>
+</div>
+
+<!-- MODAL CRIA -->
+<div class="modal-overlay" id="modal-cria">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-cria')">×</button>
+  <div class="modal-title">Registrar Nacimiento</div>
+  <label>Nombre de la cría</label><input type="text" id="c-nombre" placeholder="Ej: Sendero">
+  <label>Número / ID</label><input type="number" id="c-num" placeholder="Ej: 99">
+  <label>Sexo</label>
+  <select id="c-tipo"><option value="E">Hembra</option><option value="M">Macho</option></select>
+  <label>Madre (nombre o número)</label><input type="text" id="c-madre" placeholder="Ej: Paloma (5)">
+  <label>Padre (nombre o número)</label><input type="text" id="c-padre" placeholder="Ej: Melvo">
+  <label>Ganadería</label><input type="text" id="c-finca" list="fincas-list-dl">
+  <label>Fecha de nacimiento</label><input type="date" id="c-fecha">
+  <label>Peso al nacer (kg)</label><input type="number" id="c-peso" placeholder="Opcional">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveCria()">Guardar nacimiento</button>
+</div>
+</div>
+
+<!-- MODAL FALLECIDO -->
+<div class="modal-overlay" id="modal-fallecido">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-fallecido')">×</button>
+  <div class="modal-title">⚰️ Registrar Fallecimiento</div>
+  <label>Número del animal</label>
+  <input type="number" id="f-num" placeholder="Ej: 73" oninput="autoFillFallecido(this.value)">
+  <div id="f-autoinfo" style="background:var(--green-l);border-radius:8px;padding:10px;margin:6px 0;display:none;font-size:13px;color:var(--green)"></div>
+  <label>Nombre</label><input type="text" id="f-nombre" placeholder="Se llena solo al poner número">
+  <label>Sexo</label>
+  <select id="f-tipo"><option value="E">Hembra</option><option value="M">Macho</option></select>
+  <label>Ganadería</label><input type="text" id="f-finca" list="fincas-list-dl">
+  <label>Peso (kg)</label><input type="number" id="f-peso" placeholder="Último peso registrado">
+  <label>Fecha de nacimiento/compra</label><input type="date" id="f-fecha-nac">
+  <label>Fecha de fallecimiento</label><input type="date" id="f-fecha">
+  <div style="background:var(--red-l);border-radius:8px;padding:12px;margin-top:8px">
+    <div style="font-size:12px;color:var(--red);font-weight:600;margin-bottom:8px">📊 CÁLCULO DE PÉRDIDA</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><label style="color:var(--red)">Meses vivos</label><input type="number" id="f-meses" placeholder="Ej: 11" oninput="calcPerdida()"></div>
+      <div><label style="color:var(--red)">Pasto/mes ($30.000)</label><input type="number" id="f-pasto" value="30000" oninput="calcPerdida()"></div>
+    </div>
+    <div><label style="color:var(--red)">Precio del animal ($)</label><input type="number" id="f-precio-animal" placeholder="Ej: 400000" oninput="calcPerdida()"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid #f5c6c6">
+      <span style="font-size:13px;font-weight:600;color:var(--red)">Pérdida total:</span>
+      <span id="f-perdida-total" style="font-size:18px;font-weight:700;color:var(--red)">-</span>
+    </div>
+  </div>
+  <input type="hidden" id="f-valor">
+  <label>Causa (opcional)</label><input type="text" id="f-causa" placeholder="Ej: Enfermedad">
+  <button class="btn btn-red" style="margin-top:16px" onclick="saveFallecido()">Registrar fallecimiento</button>
+</div>
+</div>
+
+<!-- MODAL VENTA -->
+<div class="modal-overlay" id="modal-venta">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-venta')">×</button>
+  <div class="modal-title">💵 Registrar Venta</div>
+  <label>Número del animal</label>
+  <input type="number" id="v-num" placeholder="Ej: 67" oninput="autoFillVenta(this.value)">
+  <div id="v-autoinfo" style="background:var(--green-l);border-radius:8px;padding:10px;margin:6px 0;display:none;font-size:13px;color:var(--green)"></div>
+  <input type="hidden" id="v-nombre">
+  <input type="hidden" id="v-finca">
+  <input type="hidden" id="v-peso">
+  <input type="hidden" id="v-precio-kg">
+  <label>💵 Precio de venta ($)</label>
+  <input type="number" id="v-total" placeholder="Ej: 2076000" style="font-size:18px;font-weight:600">
+  <label>Fecha</label><input type="date" id="v-fecha">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveVenta()">Registrar venta</button>
+</div>
+</div>
+
+<!-- MODAL GASTO -->
+<div class="modal-overlay" id="modal-gasto">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-gasto')">×</button>
+  <div class="modal-title">Registrar Gasto</div>
+  <label>Descripción</label><input type="text" id="g-desc" placeholder="Ej: Sal ganado, Vacuna, Alambre...">
+  <div class="row2">
+    <div><label>Cantidad</label><input type="number" id="g-cant" placeholder="Ej: 3"></div>
+    <div><label>Valor total ($)</label><input type="number" id="g-valor" placeholder="Ej: 257000"></div>
+  </div>
+  <label>Categoría</label>
+  <select id="g-cat">
+    <option>Drogas y veterinaria</option>
+    <option>Alimentación</option>
+    <option>Infraestructura</option>
+    <option>Transporte</option>
+    <option>Impuestos</option>
+    <option>Mano de obra</option>
+    <option>Otro</option>
+  </select>
+  <label>Fecha</label><input type="date" id="g-fecha">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveGasto()">Guardar gasto</button>
+</div>
+</div>
+
+<!-- MODAL VACUNA -->
+<div class="modal-overlay" id="modal-vacuna">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-vacuna')">×</button>
+  <div class="modal-title">💉 Registrar Vacunación</div>
+  <label>Tipo de vacuna</label>
+  <select id="vac-tipo">
+    <option>Aftosa</option>
+    <option>Brucelosis</option>
+    <option>Rabia</option>
+    <option>Triple bovina</option>
+    <option>Carbón bacteridiano</option>
+    <option>Otro</option>
+  </select>
+  <label>Animal (nombre o número) — dejar vacío para todo el hato</label>
+  <input type="text" id="vac-animal" placeholder="Ej: Mona — o vacío para todos">
+  <label>Fecha de aplicación</label><input type="date" id="vac-fecha">
+  <label>Próxima dosis (fecha)</label><input type="date" id="vac-proxima">
+  <label>Dosis / Laboratorio</label><input type="text" id="vac-dosis" placeholder="Ej: VECOL AFT-519">
+  <label>Costo ($)</label><input type="number" id="vac-costo" placeholder="Ej: 1840">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveVacuna()">Guardar vacuna</button>
+</div>
+</div>
+
+<!-- MODAL MEDICO (historial por animal) -->
+<div class="modal-overlay" id="modal-medico">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-medico')">×</button>
+  <div class="modal-title">💊 Evento médico</div>
+  <div class="modal-sub" id="medico-animal-name"></div>
+  <input type="hidden" id="medico-animal-id">
+  <label>Tipo</label>
+  <select id="med-tipo">
+    <option>Enfermedad</option>
+    <option>Tratamiento</option>
+    <option>Vacuna</option>
+    <option>Cirugía</option>
+    <option>Revisión</option>
+  </select>
+  <label>Descripción</label><input type="text" id="med-desc" placeholder="Ej: Fiebre — se aplicó antibiótico">
+  <label>Medicamento</label><input type="text" id="med-med" placeholder="Ej: Oxitetraciclina">
+  <label>Fecha</label><input type="date" id="med-fecha">
+  <label>Costo ($)</label><input type="number" id="med-costo" placeholder="Ej: 45000">
+  <button class="btn btn-green" style="margin-top:16px" onclick="saveMedico()">Guardar</button>
+</div>
+</div>
+
+<!-- MODAL PRENIEZ -->
+<div class="modal-overlay" id="modal-preniez">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-preniez')">×</button>
+  <div class="modal-title">🤰 Registrar Preñez</div>
+  <label>Vaca (nombre o número)</label><input type="text" id="pr-animal" placeholder="Ej: Mona (2)">
+  <label>Número de la vaca</label><input type="number" id="pr-num" placeholder="Ej: 2">
+  <label>Fecha de monta o inseminación</label><input type="date" id="pr-fecha-monta">
+  <label>Toro / Donante</label><input type="text" id="pr-toro" placeholder="Ej: Mono (22)">
+  <label>Método</label>
+  <select id="pr-metodo">
+    <option>Monta natural</option>
+    <option>Inseminación artificial</option>
+    <option>Transferencia de embrión</option>
+  </select>
+  <label>Observaciones</label><input type="text" id="pr-obs" placeholder="Opcional">
+  <button class="btn btn-green" style="margin-top:16px" onclick="savePreniez()">Registrar</button>
+</div>
+</div>
+
+<!-- MODAL POTRERO -->
+<div class="modal-overlay" id="modal-potrero">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('modal-potrero')">×</button>
+  <div class="modal-title">🌿 Nuevo Potrero</div>
+  <label>Nombre del potrero</label><input type="text" id="pot-nombre" placeholder="Ej: Potrero 1, La Loma...">
+  <label>Hectáreas (opcional)</label><input type="number" id="pot-ha" placeholder="Ej: 5">
+  <label>Observaciones</label><input type="text" id="pot-obs" placeholder="Ej: Pasto kikuyo, buen pasto...">
+  <button class="btn btn-green" style="margin-top:16px" onclick="savePotrero()">Guardar</button>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ===== DATA INICIAL =====
+const INICIAL_ANIMALES=[
+  {id:1,num:1,nombre:"Surte",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:339,fecha:"2026-01-01"},{kg:356,fecha:"2026-03-01"}],crias:"72 Ilusiones",obs:"",foto:"",medico:[]},
+  {id:2,num:2,nombre:"Mona",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:424,fecha:"2026-01-01"},{kg:417,fecha:"2026-03-01"}],crias:"69 Monita, 17 Pepe",obs:"",foto:"",medico:[]},
+  {id:3,num:3,nombre:"Esperanza",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:384,fecha:"2026-01-01"},{kg:343,fecha:"2025-11-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:4,num:4,nombre:"Ilusión",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:300,fecha:"2026-01-01"},{kg:294,fecha:"2026-03-01"}],crias:"15 Camino",obs:"",foto:"",medico:[]},
+  {id:5,num:5,nombre:"Paloma",tipo:"E",finca:"Alto Bonito",potrero:"",pesos:[{kg:372,fecha:"2026-01-01"}],crias:"24 Sendero",obs:"",foto:"",medico:[]},
+  {id:6,num:6,nombre:"Melvis",tipo:"M",finca:"El Verjel",potrero:"",pesos:[{kg:37,fecha:"2026-03-01"},{kg:57,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:7,num:7,nombre:"Chapulín",tipo:"M",finca:"El Control",potrero:"",pesos:[{kg:40,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:8,num:8,nombre:"Panda",tipo:"E",finca:"El Choco",potrero:"",pesos:[{kg:374,fecha:"2026-01-01"},{kg:402,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:9,num:10,nombre:"Laroja",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:405,fecha:"2025-11-01"},{kg:442,fecha:"2026-01-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:10,num:11,nombre:"Manchas",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:408,fecha:"2026-01-01"},{kg:430,fecha:"2026-02-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:11,num:12,nombre:"Regalo",tipo:"E",finca:"El Pacífico",potrero:"",pesos:[{kg:400,fecha:"2026-01-01"},{kg:418,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:12,num:13,nombre:"Muñeca",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:272,fecha:"2026-01-01"},{kg:312,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:13,num:14,nombre:"Circe",tipo:"E",finca:"Alto Bonito",potrero:"",pesos:[],crias:"15 Bailarina",obs:"",foto:"",medico:[]},
+  {id:14,num:15,nombre:"Bailarina",tipo:"E",finca:"El Control",potrero:"",pesos:[],crias:"",obs:"Nacida 2026",foto:"",medico:[]},
+  {id:15,num:16,nombre:"Repetida",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:395,fecha:"2026-01-01"},{kg:332,fecha:"2026-03-01"}],crias:"18 Morocha",obs:"",foto:"",medico:[]},
+  {id:16,num:17,nombre:"Pepe",tipo:"M",finca:"El Control",potrero:"",pesos:[{kg:56,fecha:"2026-05-01"}],crias:"",obs:"Nacido 2026 - Madre: Mona",foto:"",medico:[]},
+  {id:17,num:19,nombre:"Bendecida",tipo:"E",finca:"El Pacífico",potrero:"",pesos:[{kg:401,fecha:"2026-01-01"},{kg:425,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:18,num:20,nombre:"Susena",tipo:"E",finca:"Tavares",potrero:"",pesos:[{kg:391,fecha:"2026-01-01"},{kg:402,fecha:"2026-02-01"}],crias:"49 Zeus",obs:"",foto:"",medico:[]},
+  {id:19,num:21,nombre:"Arca",tipo:"E",finca:"El Choco",potrero:"",pesos:[{kg:364,fecha:"2026-01-01"},{kg:401,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:20,num:22,nombre:"Sambra",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:430,fecha:"2026-01-01"},{kg:455,fecha:"2026-02-01"}],crias:"88 Bandida",obs:"",foto:"",medico:[]},
+  {id:21,num:23,nombre:"Estrella Melva",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:210,fecha:"2026-01-01"},{kg:255,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:22,num:24,nombre:"Sendero",tipo:"M",finca:"Alto Bonito",potrero:"",pesos:[],crias:"",obs:"Nacido 2026 - Madre: Paloma",foto:"",medico:[]},
+  {id:23,num:25,nombre:"Peliona",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:537,fecha:"2026-01-01"},{kg:562,fecha:"2026-02-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:24,num:26,nombre:"Ambición",tipo:"M",finca:"El Verjel",potrero:"",pesos:[{kg:401,fecha:"2026-01-01"},{kg:425,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:25,num:27,nombre:"Onix",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:390,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:26,num:28,nombre:"Viajera",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:202,fecha:"2026-01-01"},{kg:218,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:27,num:29,nombre:"Lakate",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:401,fecha:"2026-01-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:28,num:30,nombre:"Tigra",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:272,fecha:"2026-01-01"},{kg:330,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:29,num:31,nombre:"Orejas",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:371,fecha:"2025-11-01"},{kg:370,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:30,num:33,nombre:"Atena",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:364,fecha:"2026-01-01"},{kg:347,fecha:"2026-03-01"}],crias:"59 Mono",obs:"",foto:"",medico:[]},
+  {id:31,num:36,nombre:"Lulu",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:72,fecha:"2026-01-01"},{kg:55,fecha:"2026-02-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:32,num:37,nombre:"Querubín Lilibeht",tipo:"M",finca:"La Ucrania",potrero:"",pesos:[{kg:174,fecha:"2026-01-01"},{kg:240,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:33,num:38,nombre:"Lamanana",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:305,fecha:"2026-01-01"},{kg:352,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:34,num:39,nombre:"Zoe",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:233,fecha:"2026-01-01"},{kg:365,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:35,num:40,nombre:"Mathis el Negro",tipo:"E",finca:"La Granja",potrero:"",pesos:[{kg:340,fecha:"2026-01-01"},{kg:373,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:36,num:42,nombre:"Mariposa",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:63,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:37,num:43,nombre:"Nix",tipo:"E",finca:"Alto Bonito",potrero:"",pesos:[{kg:390,fecha:"2026-01-01"},{kg:415,fecha:"2026-03-01"}],crias:"27 Erix",obs:"",foto:"",medico:[]},
+  {id:38,num:44,nombre:"Pinta",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:454,fecha:"2025-11-01"},{kg:410,fecha:"2026-01-01"}],crias:"68 Agata",obs:"",foto:"",medico:[]},
+  {id:39,num:45,nombre:"Pelusa",tipo:"M",finca:"Anacaro",potrero:"",pesos:[{kg:115,fecha:"2026-03-01"},{kg:189,fecha:"2026-03-15"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:40,num:46,nombre:"Likos",tipo:"M",finca:"Anacaro",potrero:"",pesos:[{kg:51,fecha:"2026-03-01"},{kg:64,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:41,num:47,nombre:"Hera Gir",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:165,fecha:"2026-01-01"},{kg:192,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:42,num:48,nombre:"Pandora",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:184,fecha:"2026-01-01"},{kg:222,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:43,num:50,nombre:"Carevieja",tipo:"E",finca:"Tavares",potrero:"",pesos:[{kg:467,fecha:"2026-01-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:44,num:51,nombre:"Cisne",tipo:"E",finca:"Tavares",potrero:"",pesos:[{kg:344,fecha:"2026-01-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:45,num:52,nombre:"Careta",tipo:"E",finca:"El Control",potrero:"",pesos:[{kg:153,fecha:"2026-01-01"},{kg:190,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:46,num:53,nombre:"Rescate",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:178,fecha:"2026-01-01"},{kg:200,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:47,num:56,nombre:"Lupita",tipo:"E",finca:"La Ucrania",potrero:"",pesos:[{kg:182,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:48,num:57,nombre:"Chispa",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:63,fecha:"2026-03-01"},{kg:81,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:49,num:58,nombre:"Adivina",tipo:"E",finca:"",potrero:"",pesos:[{kg:50,fecha:"2026-03-01"},{kg:66,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:50,num:60,nombre:"Palomo",tipo:"M",finca:"La Ucrania",potrero:"",pesos:[{kg:115,fecha:"2026-01-01"},{kg:146,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:51,num:61,nombre:"Lira",tipo:"E",finca:"La Ucrania",potrero:"",pesos:[{kg:156,fecha:"2026-01-01"},{kg:182,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:52,num:63,nombre:"Jull Negro",tipo:"M",finca:"El Control",potrero:"",pesos:[{kg:153,fecha:"2026-01-01"},{kg:210,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:53,num:66,nombre:"Pirulin",tipo:"M",finca:"Anacaro",potrero:"",pesos:[{kg:73,fecha:"2026-02-01"},{kg:185,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:54,num:68,nombre:"Agata",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:112,fecha:"2026-03-01"},{kg:105,fecha:"2026-03-15"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:55,num:69,nombre:"Monita",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:146,fecha:"2026-03-01"},{kg:132,fecha:"2026-03-15"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:56,num:70,nombre:"Zafira",tipo:"E",finca:"El Cairo",potrero:"",pesos:[{kg:484,fecha:"2025-11-01"},{kg:415,fecha:"2026-01-01"}],crias:"83 Presagio",obs:"",foto:"",medico:[]},
+  {id:57,num:71,nombre:"Brisa",tipo:"E",finca:"El Guanábano",potrero:"",pesos:[{kg:66,fecha:"2026-02-01"},{kg:82,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:58,num:74,nombre:"Romero",tipo:"M",finca:"Anacaro",potrero:"",pesos:[{kg:45,fecha:"2026-03-01"},{kg:71,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:59,num:75,nombre:"Hecate",tipo:"E",finca:"Anacaro",potrero:"",pesos:[{kg:43,fecha:"2026-03-01"},{kg:62,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:60,num:76,nombre:"Victoria",tipo:"E",finca:"Alto Bonito",potrero:"",pesos:[{kg:400,fecha:"2025-11-01"},{kg:386,fecha:"2026-02-01"}],crias:"78 Sarco",obs:"",foto:"",medico:[]},
+  {id:61,num:81,nombre:"Zorro",tipo:"M",finca:"Anacaro",potrero:"",pesos:[{kg:66,fecha:"2026-03-01"},{kg:69,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:62,num:87,nombre:"Moira",tipo:"E",finca:"El Choco",potrero:"",pesos:[{kg:330,fecha:"2026-01-01"},{kg:380,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:63,num:88,nombre:"Sibila",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:53,fecha:"2026-03-01"},{kg:70,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:64,num:90,nombre:"Soberano",tipo:"M",finca:"El Control",potrero:"",pesos:[{kg:40,fecha:"2026-03-01"},{kg:62,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:65,num:91,nombre:"Noturna",tipo:"E",finca:"El Choco",potrero:"",pesos:[{kg:334,fecha:"2026-01-01"},{kg:372,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:66,num:92,nombre:"Zefira",tipo:"E",finca:"El Choco",potrero:"",pesos:[{kg:314,fecha:"2026-01-01"},{kg:340,fecha:"2026-03-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:67,num:93,nombre:"Hechisera",tipo:"E",finca:"Alto Bonito",potrero:"",pesos:[{kg:415,fecha:"2026-01-01"}],crias:"96 Hechisero",obs:"",foto:"",medico:[]},
+  {id:68,num:94,nombre:"Falka",tipo:"E",finca:"El Verjel",potrero:"",pesos:[{kg:56,fecha:"2026-03-01"},{kg:80,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:69,num:96,nombre:"Hechisero",tipo:"M",finca:"Alto Bonito",potrero:"",pesos:[{kg:65,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+  {id:70,num:97,nombre:"Sigfry",tipo:"M",finca:"El Verjel",potrero:"",pesos:[{kg:64,fecha:"2026-05-01"}],crias:"",obs:"",foto:"",medico:[]},
+];
+const INICIAL_FALLECIDOS=[
+  {id:1,nombre:"Can",num:73,tipo:"M",finca:"Anacaro",peso:80,valor:730000,causa:"",fecha:"2026-01-01"},
+  {id:2,nombre:"Melvo",num:6,tipo:"M",finca:"El Cairo",peso:71,valor:630000,causa:"",fecha:"2026-01-01"},
+  {id:3,nombre:"Frank Lilibeht",num:79,tipo:"M",finca:"El Verjel",peso:59,valor:450000,causa:"",fecha:"2026-01-01"},
+  {id:4,nombre:"Koral",num:35,tipo:"E",finca:"Anacaro",peso:63,valor:870000,causa:"",fecha:"2026-01-01"},
+  {id:5,nombre:"Camino",num:15,tipo:"M",finca:"El Control",peso:0,valor:60000,causa:"",fecha:"2026-01-01"},
+  {id:6,nombre:"Paciencia",num:18,tipo:"M",finca:"El Control",peso:0,valor:75000,causa:"",fecha:"2026-01-01"},
+  {id:7,nombre:"Domina",num:78,tipo:"E",finca:"El Verjel",peso:46,valor:1060000,causa:"",fecha:"2026-01-01"},
+  {id:8,nombre:"Rambo",num:54,tipo:"M",finca:"El Verjel",peso:0,valor:300000,causa:"",fecha:"2026-01-01"},
+  {id:9,nombre:"Enana",num:7,tipo:"E",finca:"La Argelia",peso:309,valor:5480000,causa:"",fecha:"2026-01-01"},
+  {id:10,nombre:"Corazón",num:82,tipo:"M",finca:"El Verjel",peso:53,valor:630000,causa:"",fecha:"2026-01-01"},
+  {id:11,nombre:"Alcon",num:95,tipo:"M",finca:"El Verjel",peso:52,valor:2000000,causa:"",fecha:"2026-01-01"},
+  {id:12,nombre:"Luserito",num:41,tipo:"E",finca:"El Control",peso:172,valor:780000,causa:"",fecha:"2026-01-01"},
+];
+const INICIAL_VENTAS=[
+  {id:1,nombre:"Andromeda",num:17,peso:426,precioKg:0,total:1000000,comprador:"",fecha:"2026-01-01"},
+  {id:2,nombre:"Cachos Negro",num:9,peso:341,precioKg:6000,total:2046000,comprador:"",fecha:"2026-01-01"},
+  {id:3,nombre:"Guerrera",num:67,peso:346,precioKg:6000,total:2076000,comprador:"",fecha:"2026-01-01"},
+];
+const INICIAL_CRIAS=[
+  {id:1,nombre:"Sendero",num:24,tipo:"M",madre:"Paloma (5)",padre:"Melvo",finca:"Alto Bonito",fecha:"2026-01-01",peso:0},
+  {id:2,nombre:"Bailarina",num:15,tipo:"E",madre:"Circe (14)",padre:"",finca:"El Control",fecha:"2026-01-01",peso:0},
+  {id:3,nombre:"Pepe",num:17,tipo:"M",madre:"Mona (2)",padre:"Aron",finca:"El Control",fecha:"2026-01-01",peso:0},
+];
+const INICIAL_GASTOS=[
+  {id:1,desc:"Sal Ganado",cant:3,valor:257010,cat:"Alimentación",fecha:"2026-01-01"},
+  {id:2,desc:"Cuido vacas leche",cant:3,valor:189000,cat:"Alimentación",fecha:"2026-01-01"},
+  {id:3,desc:"Nucherol",cant:1,valor:121000,cat:"Drogas y veterinaria",fecha:"2026-01-01"},
+  {id:4,desc:"Gasolina",cant:2,valor:190000,cat:"Transporte",fecha:"2026-01-01"},
+  {id:5,desc:"Drogas Felipe",cant:1,valor:350000,cat:"Drogas y veterinaria",fecha:"2026-01-01"},
+  {id:6,desc:"Cuido terneros",cant:2,valor:182600,cat:"Alimentación",fecha:"2026-01-01"},
+  {id:7,desc:"Vitamina Ivan",cant:1,valor:77000,cat:"Drogas y veterinaria",fecha:"2026-01-01"},
+  {id:8,desc:"Impuestos",cant:1,valor:1200000,cat:"Impuestos",fecha:"2026-01-01"},
+  {id:9,desc:"Reparación impulsor",cant:1,valor:240000,cat:"Infraestructura",fecha:"2026-01-01"},
+  {id:10,desc:"Alambre",cant:2,valor:760000,cat:"Infraestructura",fecha:"2026-01-01"},
+  {id:11,desc:"Grapas",cant:4,valor:140000,cat:"Infraestructura",fecha:"2026-01-01"},
+  {id:12,desc:"Cuido vacas leche",cant:2,valor:172000,cat:"Alimentación",fecha:"2026-02-01"},
+  {id:13,desc:"Veneno",cant:2,valor:140000,cat:"Otro",fecha:"2026-02-01"},
+  {id:14,desc:"Miel",cant:1,valor:43000,cat:"Drogas y veterinaria",fecha:"2026-02-01"},
+];
+const INICIAL_VACUNAS=[
+  {id:1,tipo:"Aftosa",animal:"Todo el hato",fecha:"2026-05-13",proxima:"2026-11-13",dosis:"VECOL AFT-519",costo:160080},
+  {id:2,tipo:"Brucelosis",animal:"Hembras 3-9 meses",fecha:"2026-05-13",proxima:"",dosis:"VECOL CBA-849",costo:0},
+];
+const INICIAL_PRENIEZ=[];
+const INICIAL_POTREROS=[];
+
+// ===== STORAGE =====
+function load(key,def){try{const d=localStorage.getItem(key);return d?JSON.parse(d):def;}catch(e){return def;}}
+function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+
+let animales=load('fv2_animales',INICIAL_ANIMALES);
+let fallecidos=load('fv2_fallecidos',INICIAL_FALLECIDOS);
+let ventas=load('fv2_ventas',INICIAL_VENTAS);
+let crias=load('fv2_crias',INICIAL_CRIAS);
+let gastos=load('fv2_gastos',INICIAL_GASTOS);
+let vacunas=load('fv2_vacunas',INICIAL_VACUNAS);
+let preniez=load('fv2_preniez',INICIAL_PRENIEZ);
+let potreros=load('fv2_potreros',INICIAL_POTREROS);
+let nextId=load('fv2_nextid',300);
+let filtroTipo='todos';
+let activeChartId=null;
+
+function saveAll(){
+  save('fv2_animales',animales);
+  save('fv2_fallecidos',fallecidos);
+  save('fv2_ventas',ventas);
+  save('fv2_crias',crias);
+  save('fv2_gastos',gastos);
+  save('fv2_vacunas',vacunas);
+  save('fv2_preniez',preniez);
+  save('fv2_potreros',potreros);
+  save('fv2_nextid',nextId);
+}
+
+// ===== HELPERS =====
+function fmt(n){return n?new Intl.NumberFormat('es-CO').format(Math.round(n)):'-';}
+function fmtFecha(f){if(!f)return '';try{const d=new Date(f+'T12:00:00');return d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return f;}}
+function uid(){return ++nextId;}
+function getFincas(){const s=new Set(animales.map(a=>a.finca).filter(Boolean));return[...s].sort();}
+function getPotreroNames(){const s=new Set([...potreros.map(p=>p.nombre),...animales.map(a=>a.potrero).filter(Boolean)]);return[...s].sort();}
+function updateDL(){
+  const dl=document.getElementById('fincas-list-dl');
+  if(dl)dl.innerHTML=getFincas().map(x=>`<option value="${x}">`).join('');
+  const dp=document.getElementById('potreros-list-dl');
+  if(dp)dp.innerHTML=getPotreroNames().map(x=>`<option value="${x}">`).join('');
+}
+function diasHasta(f){
+  if(!f)return null;
+  const hoy=new Date();
+  const d=new Date(f+'T12:00:00');
+  return Math.round((d-hoy)/(1000*60*60*24));
+}
+function previewFoto(input,previewId){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById(previewId);
+    img.src=e.target.result;
+    img.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== TABS =====
+let currentTab='resumen';
+function showTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(btn)btn.classList.add('active');
+  currentTab=tab;
+  renderTab(tab);
+}
+function renderTab(tab){
+  if(tab==='resumen')renderResumen();
+  else if(tab==='inventario')renderInv();
+  else if(tab==='crias')renderCrias();
+  else if(tab==='fallecidos')renderFallecidos();
+  else if(tab==='ventas')renderVentas();
+  else if(tab==='gastos')renderGastos();
+  else if(tab==='vacunas')renderVacunas();
+  else if(tab==='preniez')renderPreniez();
+  else if(tab==='potreros')renderPotreros();
+  else if(tab==='finano')renderFinano();
+}
+
+// ===== ALERTAS =====
+function getAlertas(){
+  const hoy=new Date();
+  const alertas=[];
+  vacunas.forEach(v=>{
+    if(!v.proxima)return;
+    const dias=diasHasta(v.proxima);
+    if(dias!==null&&dias<=30){
+      alertas.push({tipo:'vacuna',urgente:dias<=7,msg:`💉 ${v.tipo} — ${v.animal||'Todo el hato'} vence en ${dias<=0?'¡VENCIDA!':dias+' días'} (${fmtFecha(v.proxima)})`});
+    }
+  });
+  preniez.forEach(p=>{
+    if(!p.fechaMonta)return;
+    const parto=new Date(p.fechaMonta+'T12:00:00');
+    parto.setDate(parto.getDate()+283);
+    const dias=Math.round((parto-hoy)/(1000*60*60*24));
+    if(dias<=30&&dias>=-7){
+      alertas.push({tipo:'parto',urgente:dias<=7,msg:`🐄 ${p.animal} — parto estimado en ${dias<=0?'¡YA!':dias+' días'} (${fmtFecha(parto.toISOString().split('T')[0])})`});
+    }
+  });
+  return alertas;
+}
+
+// ===== RESUMEN =====
+function renderResumen(){
+  const hembras=animales.filter(a=>a.tipo==='E').length;
+  const machos=animales.filter(a=>a.tipo==='M').length;
+  document.getElementById('stats-grid').innerHTML=`
+    <div class="stat"><div class="stat-n">${animales.length}</div><div class="stat-l">Total animales</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--blue)">${hembras}</div><div class="stat-l">Hembras</div></div>
+    <div class="stat"><div class="stat-n" style="color:#4a5568">${machos}</div><div class="stat-l">Machos</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--green)">${crias.length}</div><div class="stat-l">Nacimientos</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--red)">${fallecidos.length}</div><div class="stat-l">Fallecidos</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--amber)">${ventas.length}</div><div class="stat-l">Ventas</div></div>`;
+  const alertas=getAlertas();
+  const ar=document.getElementById('alertas-resumen');
+  if(alertas.length){
+    ar.innerHTML=`<div class="sec-title">⚠️ Alertas (${alertas.length})</div>`+
+      alertas.map(a=>`<div class="alerta-vac ${a.urgente?'urgente':''}">${a.msg}</div>`).join('');
+  } else {ar.innerHTML='';}
+  const fincas=getFincas();
+  document.getElementById('fincas-list').innerHTML=fincas.length?fincas.map(f=>`
+    <div class="card"><div class="card-row"><span class="card-name">${f}</span>
+    <span style="color:var(--text3);font-size:13px">${animales.filter(a=>a.finca===f).length} animales</span></div></div>`).join(''):'<div class="empty">Sin ganaderías registradas</div>';
+}
+
+// ===== INVENTARIO =====
+function setFiltroTipo(tipo,btn){
+  filtroTipo=tipo;
+  document.querySelectorAll('#tab-inventario .btn-sm').forEach(b=>{
+    b.style.background='';b.style.color='';b.style.borderColor='var(--border)';
+  });
+  btn.style.background='var(--green-l)';btn.style.color='var(--green)';btn.style.borderColor='var(--green-l)';
+  renderInv();
+}
+function renderInv(){
+  const q=(document.getElementById('search-inv')||{}).value||'';
+  let filtrado=animales.filter(a=>{
+    const match=a.nombre.toLowerCase().includes(q.toLowerCase())||String(a.num).includes(q)||(a.finca||'').toLowerCase().includes(q.toLowerCase());
+    const tipoOk=filtroTipo==='todos'||a.tipo===filtroTipo;
+    return match&&tipoOk;
+  }).sort((a,b)=>a.num-b.num);
+  const list=document.getElementById('inv-list');
+  if(!list)return;
+  if(!filtrado.length){list.innerHTML='<div class="empty">No se encontró ningún animal</div>';return;}
+  list.innerHTML=filtrado.map(a=>{
+    const ult=a.pesos&&a.pesos.length?a.pesos[a.pesos.length-1]:null;
+    const ganancia=a.pesos&&a.pesos.length>1?a.pesos[a.pesos.length-1].kg-a.pesos[0].kg:null;
+    const fotoHtml=a.foto?`<img src="${a.foto}" class="foto-thumb">`:`<div class="avatar ${a.tipo==='M'?'av-m':'av-h'}">${a.num}</div>`;
+    return`<div class="card" onclick="showAnimalDetail(${a.id})">
+      <div class="card-row">
+        ${fotoHtml}
+        <div>
+          <div class="card-name">${a.nombre} <span style="font-size:12px;color:var(--text3)">#${a.num}</span></div>
+          <div class="card-sub">${a.tipo==='E'?'♀ Hembra':'♂ Macho'} — ${a.finca||'Sin ganadería'}${a.potrero?' · '+a.potrero:''}${a.crias?' · Crías: '+a.crias:''}</div>
+        </div>
+        <div class="card-right">
+          ${ult?`<div class="card-peso">${ult.kg} kg</div><div class="card-fecha" style="color:${ganancia!==null?(ganancia>=0?'var(--green)':'var(--red)'):'var(--text3)'}">${ganancia!==null?(ganancia>=0?'▲':'▼')+Math.abs(ganancia)+' kg':fmtFecha(ult.fecha)}</div>`:'<div class="card-fecha">Sin pesaje</div>'}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showAnimalDetail(id){
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('inv-list-view').style.display='none';
+  document.getElementById('fab-inv').style.display='none';
+  const dv=document.getElementById('inv-detail-view');
+  dv.style.display='block';
+  const ganancia=a.pesos&&a.pesos.length>1?a.pesos[a.pesos.length-1].kg-a.pesos[0].kg:null;
+  const fotoHeaderHtml=a.foto?`<img src="${a.foto}" class="det-avatar">`:`<div class="det-avatar">${a.num}</div>`;
+  dv.innerHTML=`
+    <div class="det-hdr">
+      <button class="back-btn" onclick="backToList()">← Volver</button>
+      ${fotoHeaderHtml}
+      <div><div class="det-name">${a.nombre}</div><div class="det-sub">${a.tipo==='E'?'Hembra':'Macho'} — ${a.finca||'Sin ganadería'}</div></div>
+    </div>
+    <div class="det-tabs">
+      <button class="det-tab active" onclick="showDetTab('info',this)">Info</button>
+      <button class="det-tab" onclick="showDetTab('pesos',this)">⚖️ Pesos</button>
+      <button class="det-tab" onclick="showDetTab('medico',this)">💊 Médico</button>
+    </div>
+    <div id="det-info" class="det-section active">
+      <div class="info-row"><span class="info-label">Número</span><span class="info-val">${a.num}</span></div>
+      <div class="info-row"><span class="info-label">Sexo</span><span class="info-val">${a.tipo==='E'?'Hembra (E)':'Macho (M)'}</span></div>
+      <div class="info-row"><span class="info-label">Ganadería</span><span class="info-val">${a.finca||'—'}</span></div>
+      <div class="info-row"><span class="info-label">Potrero</span><span class="info-val">${a.potrero||'—'}</span></div>
+      ${a.padre?`<div class="info-row"><span class="info-label">Padre</span><span class="info-val">${a.padre}</span></div>`:''}      ${a.madre?`<div class="info-row"><span class="info-label">Madre</span><span class="info-val">${a.madre}</span></div>`:''}      ${a.crias?`<div class="info-row"><span class="info-label">Crías</span><span class="info-val" style="white-space:pre-line">${a.crias}</span></div>`:''}
+      ${ganancia!==null?`<div class="info-row"><span class="info-label">Variación peso</span><span class="info-val" style="color:${ganancia>=0?'var(--green)':'var(--red)'}">${ganancia>=0?'+':''}${ganancia} kg</span></div>`:''}
+      ${a.obs?`<div class="info-row"><span class="info-label">Observaciones</span><span class="info-val">${a.obs}</span></div>`:''}
+      <button class="btn btn-green" onclick="openPesaje(${a.id})">+ Registrar pesaje</button>
+      <button class="btn" onclick="openMedico(${a.id})">💊 Evento médico</button>
+      <button class="btn" onclick="editAnimal(${a.id})">✏️ Editar animal</button>
+      <div class="danger-zone"><button class="btn btn-red" onclick="deleteAnimal(${a.id})">🗑 Eliminar animal</button></div>
+    </div>
+    <div id="det-pesos" class="det-section">
+      <div class="chart-wrap"><canvas id="chart-peso-${id}" height="180"></canvas></div>
+      <div class="pesos-list">${a.pesos&&a.pesos.length?a.pesos.map(p=>`<div class="peso-chip">${p.kg} kg<span>${fmtFecha(p.fecha)}</span></div>`).join(''):'<span style="color:var(--text3);font-size:13px">Sin pesajes</span>'}</div>
+      <button class="btn btn-green" onclick="openPesaje(${a.id})">+ Registrar pesaje</button>
+    </div>
+    <div id="det-medico" class="det-section">
+      ${(a.medico&&a.medico.length)?a.medico.map(m=>`
+        <div class="card" style="cursor:default">
+          <div class="card-row">
+            <span class="badge bg-med">${m.tipo}</span>
+            <div style="margin-left:8px">
+              <div class="card-name" style="font-size:14px">${m.desc}</div>
+              <div class="card-sub">${m.med?'💊 '+m.med+' · ':''} ${fmtFecha(m.fecha)}${m.costo?' · $'+fmt(m.costo):''}</div>
+            </div>
+          </div>
+        </div>`).join(''):'<div class="empty">Sin historial médico</div>'}
+      <button class="btn btn-green" onclick="openMedico(${a.id})">+ Evento médico</button>
+    </div>`;
+  setTimeout(()=>drawChart(id,a),100);
+}
+
+function showDetTab(name,btn){
+  document.querySelectorAll('.det-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.det-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('det-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function drawChart(id,a){
+  const canvas=document.getElementById('chart-peso-'+id);
+  if(!canvas||!a.pesos||a.pesos.length<2)return;
+  if(activeChartId)try{activeChartId.destroy();}catch(e){}
+  const sorted=[...a.pesos].sort((x,y)=>x.fecha.localeCompare(y.fecha));
+  activeChartId=new Chart(canvas,{
+    type:'line',
+    data:{
+      labels:sorted.map(p=>fmtFecha(p.fecha)),
+      datasets:[{
+        label:'Peso (kg)',
+        data:sorted.map(p=>p.kg),
+        borderColor:'#2d6a4f',
+        backgroundColor:'rgba(45,106,79,0.08)',
+        pointBackgroundColor:'#2d6a4f',
+        tension:0.3,fill:true,pointRadius:5
+      }]
+    },
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}}}
+  });
+}
+
+function backToList(){
+  document.getElementById('inv-list-view').style.display='block';
+  document.getElementById('fab-inv').style.display='flex';
+  document.getElementById('inv-detail-view').style.display='none';
+  if(activeChartId){try{activeChartId.destroy();}catch(e){} activeChartId=null;}
+}
+
+function openPesaje(id){
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('pesaje-animal-id').value=id;
+  document.getElementById('pesaje-animal-name').textContent=a.nombre+' ('+a.num+')';
+  document.getElementById('p-kg').value='';
+  document.getElementById('p-fecha').value=new Date().toISOString().split('T')[0];
+  openModal('modal-pesaje');
+}
+function savePesaje(){
+  const id=parseInt(document.getElementById('pesaje-animal-id').value);
+  const kg=parseFloat(document.getElementById('p-kg').value);
+  const fecha=document.getElementById('p-fecha').value;
+  if(!kg||kg<=0){alert('Ingrese un peso válido');return;}
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  if(!a.pesos)a.pesos=[];
+  a.pesos.push({kg,fecha});
+  saveAll();closeModal('modal-pesaje');showAnimalDetail(id);
+}
+
+function openMedico(id){
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('medico-animal-id').value=id;
+  document.getElementById('medico-animal-name').textContent=a.nombre+' ('+a.num+')';
+  document.getElementById('med-fecha').value=new Date().toISOString().split('T')[0];
+  ['med-desc','med-med','med-costo'].forEach(f=>document.getElementById(f).value='');
+  openModal('modal-medico');
+}
+function saveMedico(){
+  const id=parseInt(document.getElementById('medico-animal-id').value);
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  if(!a.medico)a.medico=[];
+  a.medico.push({
+    tipo:document.getElementById('med-tipo').value,
+    desc:document.getElementById('med-desc').value,
+    med:document.getElementById('med-med').value,
+    fecha:document.getElementById('med-fecha').value,
+    costo:parseFloat(document.getElementById('med-costo').value)||0
+  });
+  saveAll();closeModal('modal-medico');showAnimalDetail(id);
+}
+
+function editAnimal(id){
+  const a=animales.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('modal-animal-title').textContent='Editar Animal';
+  document.getElementById('edit-animal-id').value=id;
+  document.getElementById('a-num').value=a.num;
+  document.getElementById('a-nombre').value=a.nombre;
+  document.getElementById('a-tipo').value=a.tipo;
+  document.getElementById('a-finca').value=a.finca||'';
+  document.getElementById('a-potrero').value=a.potrero||'';
+  document.getElementById('a-padre').value=a.padre||'';  document.getElementById('a-madre').value=a.madre||'';  document.getElementById('a-pesos-container').innerHTML='';  (a.pesos||[]).forEach(p=>addPesoRow(p.kg,p.fecha));
+
+  document.getElementById('a-crias').value=a.crias||'';
+  document.getElementById('a-obs').value=a.obs||'';
+  const prev=document.getElementById('a-foto-preview');
+  if(a.foto){prev.src=a.foto;prev.classList.add('show');}else{prev.classList.remove('show');}
+  openModal('modal-animal');
+}
+function deleteAnimal(id){
+  if(!confirm('¿Seguro que desea eliminar este animal?'))return;
+  animales=animales.filter(x=>x.id!==id);
+  saveAll();backToList();renderInv();renderResumen();
+}
+function addPesoRow(kg='', fecha=''){
+  const c = document.getElementById('a-pesos-container');
+  const div = document.createElement('div');
+  div.style = 'display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:center';
+  div.innerHTML = '<input type="number" class="p-kg" placeholder="kg" value="'+kg+'" style="margin:0"><input type="date" class="p-fecha" value="'+fecha+'" style="margin:0"><button type="button" onclick="this.parentNode.remove()" style="background:var(--red-l);color:var(--red);border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:16px;height:40px">×</button>';
+  c.appendChild(div);
+}
+function saveAnimal(){
+  const editId=document.getElementById('edit-animal-id').value;
+  const num=parseInt(document.getElementById('a-num').value);
+  const nombre=document.getElementById('a-nombre').value.trim();
+  const tipo=document.getElementById('a-tipo').value;
+  const finca=document.getElementById('a-finca').value.trim();
+  const potrero=document.getElementById('a-potrero').value.trim();
+  const padre=document.getElementById('a-padre').value.trim();
+  const madre=document.getElementById('a-madre').value.trim();
+  const crias=document.getElementById('a-crias').value.trim();
+  const obs=document.getElementById('a-obs').value.trim();
+  const fotoInput=document.getElementById('a-foto');
+  if(!nombre){alert('Ingrese el nombre del animal');return;}
+  if(!num){alert('Ingrese el número del animal');return;}
+  const pesos=[];
+  document.querySelectorAll('#a-pesos-container > div').forEach(row=>{
+    const kg=parseFloat(row.querySelector('.p-kg').value);
+    const fecha=row.querySelector('.p-fecha').value;
+    if(kg&&kg>0)pesos.push({kg,fecha:fecha||new Date().toISOString().split('T')[0]});
+  });
+  const procesarFoto=(fotoData)=>{
+    if(editId){
+      const a=animales.find(x=>x.id===parseInt(editId));
+      if(a){a.num=num;a.nombre=nombre;a.tipo=tipo;a.finca=finca;a.potrero=potrero;a.padre=padre;a.madre=madre;a.crias=crias;a.obs=obs;if(pesos.length)a.pesos=[...a.pesos,...pesos];if(fotoData)a.foto=fotoData;}
+    }else{
+      animales.push({id:uid(),num,nombre,tipo,finca,potrero,padre,madre,pesos,crias,obs,foto:fotoData||'',medico:[]});
+    }
+    saveAll();closeModal('modal-animal');
+    document.getElementById('modal-animal-title').textContent='Nuevo Animal';
+    document.getElementById('edit-animal-id').value='';
+    renderInv();renderResumen();
+  };
+  if(fotoInput.files&&fotoInput.files[0]){
+    const r=new FileReader();
+    r.onload=e=>procesarFoto(e.target.result);
+    r.readAsDataURL(fotoInput.files[0]);
+  }else{procesarFoto(null);}
+}
+
+// ===== CRIAS =====
+function renderCrias(){
+  const c=document.getElementById('crias-content');
+  const conCria=animales.filter(a=>a.crias);
+  c.innerHTML=`
+    <div class="sec-title">Nacimientos 2026 (${crias.length})</div>
+    ${crias.length?crias.map(x=>`
+      <div class="card">
+        <div class="card-row">
+          <div class="avatar ${x.tipo==='M'?'av-m':'av-h'}">${x.num||'?'}</div>
+          <div>
+            <div class="card-name">${x.nombre}</div>
+            <div class="card-sub">${x.tipo==='E'?'♀ Hembra':'♂ Macho'}${x.madre?' · Madre: '+x.madre:''}${x.padre?' · Padre: '+x.padre:''}</div>
+            <div class="card-sub">${x.finca||''} ${x.fecha?'· '+fmtFecha(x.fecha):''}${x.peso?' · '+x.peso+' kg':''}</div>
+          </div>
+          <button onclick="deleteCria(${x.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:4px;margin-left:auto">×</button>
+        </div>
+      </div>`).join(''):'<div class="empty">Sin nacimientos registrados</div>'}
+    <div class="sec-title">Vacas con crías activas (${conCria.length})</div>
+    ${conCria.map(a=>`
+      <div class="card">
+        <div class="card-row">
+          <div class="avatar av-h">${a.num}</div>
+          <div><div class="card-name">${a.nombre}</div><div class="card-sub">Crías: ${a.crias}</div></div>
+          <span class="badge bg-cria" style="margin-left:auto">Con cría</span>
+        </div>
+      </div>`).join('')}`;
+}
+function saveCria(){
+  const nombre=document.getElementById('c-nombre').value.trim();
+  const num=parseInt(document.getElementById('c-num').value)||0;
+  const tipo=document.getElementById('c-tipo').value;
+  const madre=document.getElementById('c-madre').value.trim();
+  const padre=document.getElementById('c-padre').value.trim();
+  const finca=document.getElementById('c-finca').value.trim();
+  const fecha=document.getElementById('c-fecha').value;
+  const peso=parseFloat(document.getElementById('c-peso').value)||0;
+  if(!nombre){alert('Ingrese el nombre de la cría');return;}
+  crias.push({id:uid(),nombre,num,tipo,madre,padre,finca,fecha,peso});
+  if(num&&nombre){
+    const existe=animales.find(a=>a.num===num);
+    if(!existe)animales.push({id:uid(),num,nombre,tipo,finca,potrero:'',pesos:peso?[{kg:peso,fecha:fecha||new Date().toISOString().split('T')[0]}]:[],crias:'',obs:'Nacido '+new Date().getFullYear(),foto:'',medico:[]});
+  }
+  saveAll();closeModal('modal-cria');renderCrias();renderResumen();
+}
+function deleteCria(id){
+  if(!confirm('¿Eliminar?'))return;
+  crias=crias.filter(x=>x.id!==id);
+  saveAll();renderCrias();renderResumen();
+}
+
+// ===== FALLECIDOS =====
+function renderFallecidos(){
+  const total=fallecidos.reduce((s,f)=>s+(f.valor||0),0);
+  document.getElementById('fallecidos-content').innerHTML=`
+    <div class="total-banner tb-red">
+      <span class="tb-label" style="color:var(--red)">Pérdida total</span>
+      <span class="tb-val" style="color:var(--red)">$${fmt(total)}</span>
+    </div>
+    ${fallecidos.length?fallecidos.map(f=>`
+      <div class="card">
+        <div class="card-row">
+          <div class="avatar av-dead">${f.num||'?'}</div>
+          <div>
+            <div class="card-name">${f.nombre}</div>
+            <div class="card-sub">${f.tipo==='E'?'♀':'♂'}${f.peso?' · '+f.peso+' kg':''}${f.finca?' · '+f.finca:''}${f.causa?' · '+f.causa:''}</div>
+            ${f.fecha?`<div class="card-sub">${fmtFecha(f.fecha)}</div>`:''}
+          </div>
+          <div class="card-right">
+            <div class="card-peso" style="color:var(--red)">$${fmt(f.valor)}</div>
+            <button onclick="deleteFallecido(${f.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px">×</button>
+          </div>
+        </div>
+      </div>`).join(''):'<div class="empty">Sin fallecidos registrados</div>'}`;
+}
+function saveFallecido(){
+  const num=parseInt(document.getElementById('f-num').value)||0;
+  const nombre=document.getElementById('f-nombre').value.trim();
+  if(!num){alert('Ingrese el número del animal');return;}
+  const meses=parseFloat(document.getElementById('f-meses').value)||0;
+  const pasto=parseFloat(document.getElementById('f-pasto').value)||30000;
+  const precioAnimal=parseFloat(document.getElementById('f-precio-animal').value)||0;
+  const perdida=(meses*pasto)+precioAnimal;
+  fallecidos.push({
+    id:uid(),nombre,num,
+    tipo:document.getElementById('f-tipo').value,
+    finca:document.getElementById('f-finca').value.trim(),
+    peso:parseFloat(document.getElementById('f-peso').value)||0,
+    valor:perdida,
+    meses,pasto,precioAnimal,
+    causa:document.getElementById('f-causa').value.trim(),
+    fecha:document.getElementById('f-fecha').value,
+    fechaNac:document.getElementById('f-fecha-nac').value
+  });
+  // Eliminar del inventario por número — número queda libre
+  animales=animales.filter(a=>a.num!==num);
+  // Limpiar formulario
+  ['f-num','f-nombre','f-finca','f-peso','f-meses','f-precio-animal','f-causa','f-fecha-nac'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('f-pasto').value=30000;
+  document.getElementById('f-perdida-total').textContent='-';
+  document.getElementById('f-autoinfo').style.display='none';
+  saveAll();closeModal('modal-fallecido');renderFallecidos();renderResumen();
+}
+function deleteFallecido(id){
+  if(!confirm('¿Eliminar?'))return;
+  fallecidos=fallecidos.filter(x=>x.id!==id);
+  saveAll();renderFallecidos();renderResumen();
+}
+
+// ===== VENTAS =====
+// ===== AUTOCOMPLETADO NUMERO =====
+function autoFillVenta(num){
+  num=parseInt(num);
+  const a=animales.find(x=>x.num===num);
+  const info=document.getElementById('v-autoinfo');
+  if(a){
+    document.getElementById('v-nombre').value=a.nombre;
+    document.getElementById('v-finca').value=a.finca||'';
+    const ultPeso=a.pesos&&a.pesos.length?a.pesos[a.pesos.length-1].kg:0;
+    document.getElementById('v-peso').value=ultPeso;
+    info.style.display='block';
+    info.innerHTML='✅ <strong>'+a.nombre+'</strong> — '+(a.tipo==='E'?'Hembra':'Macho')+' — '+(a.finca||'Sin ganadería')+(ultPeso?' — '+ultPeso+' kg':'');
+  } else {
+    info.style.display='none';
+    document.getElementById('v-nombre').value='';
+    document.getElementById('v-finca').value='';
+    document.getElementById('v-peso').value='';
+  }
+}
+
+function autoFillFallecido(num){
+  num=parseInt(num);
+  const a=animales.find(x=>x.num===num);
+  const info=document.getElementById('f-autoinfo');
+  if(a){
+    document.getElementById('f-nombre').value=a.nombre;
+    document.getElementById('f-tipo').value=a.tipo;
+    document.getElementById('f-finca').value=a.finca||'';
+    const ultPeso=a.pesos&&a.pesos.length?a.pesos[a.pesos.length-1].kg:0;
+    document.getElementById('f-peso').value=ultPeso||'';
+    // Calcular meses vivos desde fecha de nacimiento/compra
+    if(a.fecha){
+      const nac=new Date(a.fecha+'T12:00:00');
+      const hoy=new Date();
+      const meses=Math.round((hoy-nac)/(1000*60*60*24*30));
+      document.getElementById('f-meses').value=meses;
+      document.getElementById('f-fecha-nac').value=a.fecha;
+    }
+    info.style.display='block';
+    info.innerHTML='✅ <strong>'+a.nombre+'</strong> — '+(a.tipo==='E'?'Hembra':'Macho')+' — '+(a.finca||'Sin ganadería')+(ultPeso?' — '+ultPeso+' kg':'');
+    calcPerdida();
+  } else {
+    info.style.display='none';
+  }
+}
+
+function calcPerdida(){
+  const meses=parseFloat(document.getElementById('f-meses').value)||0;
+  const pasto=parseFloat(document.getElementById('f-pasto').value)||30000;
+  const precio=parseFloat(document.getElementById('f-precio-animal').value)||0;
+  const total=(meses*pasto)+precio;
+  document.getElementById('f-perdida-total').textContent=total>0?'-$'+new Intl.NumberFormat('es-CO').format(total):'-';
+  document.getElementById('f-valor').value=total;
+}
+
+function calcVenta(){
+  const p=parseFloat(document.getElementById('v-peso').value)||0;
+  const pk=parseFloat(document.getElementById('v-precio-kg').value)||0;
+  if(p&&pk)document.getElementById('v-total').value=Math.round(p*pk);
+}
+function renderVentas(){
+  const total=ventas.reduce((s,v)=>s+(v.total||0),0);
+  document.getElementById('ventas-content').innerHTML=`
+    <div class="total-banner tb-amber">
+      <span class="tb-label" style="color:var(--amber)">Total ventas</span>
+      <span class="tb-val" style="color:var(--amber)">$${fmt(total)}</span>
+    </div>
+    ${ventas.length?ventas.map(v=>`
+      <div class="card">
+        <div class="card-row">
+          <div class="avatar av-sale">${v.num||'?'}</div>
+          <div>
+            <div class="card-name">${v.nombre}</div>
+            <div class="card-sub">${v.peso?v.peso+' kg':''}${v.precioKg?' · $'+fmt(v.precioKg)+'/kg':''}${v.comprador?' · '+v.comprador:''}</div>
+            ${v.fecha?`<div class="card-sub">${fmtFecha(v.fecha)}</div>`:''}
+          </div>
+          <div class="card-right">
+            <div class="card-peso">$${fmt(v.total)}</div>
+            <button onclick="deleteVenta(${v.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px">×</button>
+          </div>
+        </div>
+      </div>`).join(''):'<div class="empty">Sin ventas registradas</div>'}`;
+}
+function saveVenta(){
+  const num=parseInt(document.getElementById('v-num').value)||0;
+  const total=parseFloat(document.getElementById('v-total').value)||0;
+  if(!num){alert('Ingrese el número del animal');return;}
+  if(!total){alert('Ingrese el precio de venta');return;}
+  const nombre=document.getElementById('v-nombre').value||'Animal '+num;
+  const finca=document.getElementById('v-finca').value||'';
+  const peso=parseFloat(document.getElementById('v-peso').value)||0;
+  ventas.push({id:uid(),nombre,num,finca,peso,precioKg:0,total,comprador:'',fecha:document.getElementById('v-fecha').value});
+  // Eliminar del inventario — número queda libre
+  animales=animales.filter(a=>a.num!==num);
+  // Limpiar formulario
+  document.getElementById('v-num').value='';
+  document.getElementById('v-total').value='';
+  document.getElementById('v-autoinfo').style.display='none';
+  saveAll();closeModal('modal-venta');renderVentas();renderResumen();
+}
+function deleteVenta(id){
+  if(!confirm('¿Eliminar?'))return;
+  ventas=ventas.filter(x=>x.id!==id);
+  saveAll();renderVentas();renderResumen();
+}
+
+// ===== GASTOS =====
+function renderGastos(){
+  const total=gastos.reduce((s,g)=>s+(g.valor||0),0);
+  const cats=[...new Set(gastos.map(g=>g.cat))];
+  document.getElementById('gastos-content').innerHTML=`
+    <div class="total-banner tb-amber">
+      <span class="tb-label" style="color:var(--amber)">Total gastos</span>
+      <span class="tb-val" style="color:var(--amber)">$${fmt(total)}</span>
+    </div>
+    ${cats.map(cat=>{
+      const gs=gastos.filter(g=>g.cat===cat);
+      const sub=gs.reduce((s,g)=>s+(g.valor||0),0);
+      return`<div class="sec-title">${cat} — $${fmt(sub)}</div>
+      ${gs.map(g=>`
+        <div class="card">
+          <div class="card-row">
+            <div>
+              <div class="card-name">${g.desc}</div>
+              <div class="card-sub">${g.cant?g.cant+' unid.':''} ${g.fecha?'· '+fmtFecha(g.fecha):''}</div>
+            </div>
+            <div class="card-right">
+              <div class="card-peso">$${fmt(g.valor)}</div>
+              <button onclick="deleteGasto(${g.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px">×</button>
+            </div>
+          </div>
+        </div>`).join('')}`;
+    }).join('')}
+    ${!gastos.length?'<div class="empty">Sin gastos registrados</div>':''}`;
+}
+function saveGasto(){
+  const desc=document.getElementById('g-desc').value.trim();
+  if(!desc){alert('Ingrese una descripción');return;}
+  gastos.push({id:uid(),desc,cant:parseFloat(document.getElementById('g-cant').value)||0,valor:parseFloat(document.getElementById('g-valor').value)||0,cat:document.getElementById('g-cat').value,fecha:document.getElementById('g-fecha').value});
+  saveAll();closeModal('modal-gasto');renderGastos();
+}
+function deleteGasto(id){
+  if(!confirm('¿Eliminar?'))return;
+  gastos=gastos.filter(x=>x.id!==id);
+  saveAll();renderGastos();
+}
+
+// ===== VACUNAS =====
+function renderVacunas(){
+  const hoy=new Date();
+  const alertas=vacunas.filter(v=>{
+    if(!v.proxima)return false;
+    return diasHasta(v.proxima)<=30;
+  });
+  const av=document.getElementById('alertas-vacunas');
+  av.innerHTML=alertas.length?`<div class="sec-title">⚠️ Próximas dosis</div>`+alertas.map(v=>{
+    const d=diasHasta(v.proxima);
+    return`<div class="alerta-vac ${d<=7?'urgente':''}">💉 ${v.tipo} — ${v.animal||'Todo el hato'} en ${d<=0?'¡VENCIDA!':d+' días'} (${fmtFecha(v.proxima)})</div>`;
+  }).join(''):'';
+  document.getElementById('vacunas-content').innerHTML=`
+    <div class="total-banner tb-teal">
+      <span class="tb-label" style="color:var(--teal)">Vacunaciones registradas</span>
+      <span class="tb-val" style="color:var(--teal)">${vacunas.length}</span>
+    </div>
+    ${vacunas.length?vacunas.map(v=>`
+      <div class="card">
+        <div class="card-row">
+          <span class="badge bg-vac" style="flex-shrink:0">${v.tipo}</span>
+          <div style="margin-left:10px">
+            <div class="card-name">${v.animal||'Todo el hato'}</div>
+            <div class="card-sub">Aplicada: ${fmtFecha(v.fecha)}${v.dosis?' · '+v.dosis:''}${v.costo?' · $'+fmt(v.costo):''}</div>
+            ${v.proxima?`<div class="card-sub" style="color:${diasHasta(v.proxima)<=7?'var(--red)':'var(--teal)'}">Próxima: ${fmtFecha(v.proxima)}</div>`:''}
+          </div>
+          <button onclick="deleteVacuna(${v.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px;margin-left:auto">×</button>
+        </div>
+      </div>`).join(''):'<div class="empty">Sin vacunaciones registradas</div>'}`;
+}
+function saveVacuna(){
+  vacunas.push({id:uid(),tipo:document.getElementById('vac-tipo').value,animal:document.getElementById('vac-animal').value.trim(),fecha:document.getElementById('vac-fecha').value,proxima:document.getElementById('vac-proxima').value,dosis:document.getElementById('vac-dosis').value.trim(),costo:parseFloat(document.getElementById('vac-costo').value)||0});
+  saveAll();closeModal('modal-vacuna');renderVacunas();renderResumen();
+}
+function deleteVacuna(id){
+  if(!confirm('¿Eliminar?'))return;
+  vacunas=vacunas.filter(x=>x.id!==id);
+  saveAll();renderVacunas();
+}
+
+// ===== PREÑEZ =====
+function renderPreniez(){
+  const hoy=new Date();
+  document.getElementById('preniez-content').innerHTML=`
+    <div class="total-banner" style="background:var(--purple-l)">
+      <span class="tb-label" style="color:var(--purple)">Preñeces registradas</span>
+      <span class="tb-val" style="color:var(--purple)">${preniez.length}</span>
+    </div>
+    ${preniez.length?preniez.map(p=>{
+      let partoEstimado='';
+      let diasParto=null;
+      if(p.fechaMonta){
+        const d=new Date(p.fechaMonta+'T12:00:00');
+        d.setDate(d.getDate()+283);
+        partoEstimado=d.toISOString().split('T')[0];
+        diasParto=Math.round((d-hoy)/(1000*60*60*24));
+      }
+      return`<div class="card">
+        <div class="card-row">
+          <div class="avatar" style="background:var(--purple-l);color:var(--purple)">🤰</div>
+          <div>
+            <div class="card-name">${p.animal}</div>
+            <div class="card-sub">${p.metodo}${p.toro?' · Toro: '+p.toro:''}</div>
+            <div class="card-sub">Monta: ${fmtFecha(p.fechaMonta)}</div>
+            ${partoEstimado?`<div class="card-sub" style="color:${diasParto!==null&&diasParto<=14?'var(--red)':'var(--purple)'}">🐮 Parto estimado: ${fmtFecha(partoEstimado)}${diasParto!==null?' ('+( diasParto<=0?'¡YA!':diasParto+' días')+')':''}</div>`:''}
+          </div>
+          <button onclick="deletePreniez(${p.id})" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px;margin-left:auto">×</button>
+        </div>
+      </div>`;
+    }).join(''):'<div class="empty">Sin preñeces registradas</div>'}`;
+}
+function savePreniez(){
+  const animal=document.getElementById('pr-animal').value.trim();
+  if(!animal){alert('Ingrese el nombre de la vaca');return;}
+  preniez.push({id:uid(),animal,num:parseInt(document.getElementById('pr-num').value)||0,fechaMonta:document.getElementById('pr-fecha-monta').value,toro:document.getElementById('pr-toro').value.trim(),metodo:document.getElementById('pr-metodo').value,obs:document.getElementById('pr-obs').value.trim()});
+  saveAll();closeModal('modal-preniez');renderPreniez();renderResumen();
+}
+function deletePreniez(id){
+  if(!confirm('¿Eliminar?'))return;
+  preniez=preniez.filter(x=>x.id!==id);
+  saveAll();renderPreniez();
+}
+
+// ===== POTREROS =====
+function renderPotreros(){
+  const todos=getPotreroNames();
+  const elContent=document.getElementById('potreros-content');
+  if(!todos.length){elContent.innerHTML='<div class="empty">Sin potreros registrados<br>Presione + para agregar</div>';return;}
+  elContent.innerHTML=todos.map(nombre=>{
+    const animalesEnPotrero=animales.filter(a=>a.potrero===nombre);
+    const info=potreros.find(p=>p.nombre===nombre);
+    return`<div class="potrero-card">
+      <div class="potrero-header">
+        <span class="potrero-name">🌿 ${nombre}</span>
+        <span class="potrero-count">${animalesEnPotrero.length} animales</span>
+      </div>
+      ${info?`<div style="font-size:12px;color:var(--text2);margin-bottom:8px">${info.ha?info.ha+' ha · ':''} ${info.obs||''}</div>`:''}
+      <div>${animalesEnPotrero.length?animalesEnPotrero.map(a=>`<span class="chip-animal">${a.num} ${a.nombre}</span>`).join(''):'<span style="font-size:12px;color:var(--text3)">Sin animales asignados</span>'}</div>
+      <button onclick="deletePotrero('${nombre}')" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;margin-top:8px">🗑 Eliminar potrero</button>
+    </div>`;
+  }).join('');
+}
+function savePotrero(){
+  const nombre=document.getElementById('pot-nombre').value.trim();
+  if(!nombre){alert('Ingrese el nombre del potrero');return;}
+  const existe=potreros.find(p=>p.nombre===nombre);
+  if(!existe)potreros.push({id:uid(),nombre,ha:parseFloat(document.getElementById('pot-ha').value)||0,obs:document.getElementById('pot-obs').value.trim()});
+  saveAll();closeModal('modal-potrero');renderPotreros();
+}
+function deletePotrero(nombre){
+  if(!confirm('¿Eliminar potrero? Los animales quedarán sin potrero asignado.'))return;
+  potreros=potreros.filter(p=>p.nombre!==nombre);
+  animales.forEach(a=>{if(a.potrero===nombre)a.potrero='';});
+  saveAll();renderPotreros();
+}
+
+// ===== FIN DE AÑO =====
+const FIN2025={
+  ganado_inicio:143000000, ganado_valor:185387000, ganado_cabezas:85,
+  valorizacion:42387000, venta_animales:43553000, drogas:4952049,
+  trabajos:34800000, compra_animales:95000000, perdidas:30000000,
+  amortizacion:5800000, total_egresos:176352049, resultado:-90412049,
+  maquinas:17000000, maquinas2:3400000, alambres:12000000, alambres2:2400000,
+  total_activos:85940000
+};
+function renderFinano(){
+  const compras_n=3;
+  const totalVentas=ventas.reduce((s,v)=>s+(v.total||0),0);
+  const totalFallecidos=fallecidos.reduce((s,f)=>s+(f.valor||0),0);
+  const totalGastos=gastos.reduce((s,g)=>s+(g.valor||0),0);
+  const totalCompras=4750000;
+  const resultado2026=FIN2025.ganado_valor+totalVentas-(totalFallecidos+totalGastos+totalCompras);
+  const diferencia=resultado2026-FIN2025.ganado_valor;
+  function row(lbl,val,color='',bold=false){
+    return`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:14px;color:${bold?'var(--text)':'var(--text2)'};font-weight:${bold?600:400}">${lbl}</span>
+      <span style="font-size:14px;font-weight:${bold?700:500};color:${color||'var(--text)'}">${val}</span>
+    </div>`;}
+  function money(n){return'$'+new Intl.NumberFormat('es-CO').format(Math.abs(Math.round(n)));}
+  document.getElementById('finano-content').innerHTML=`
+    <div style="background:var(--green);color:#fff;border-radius:var(--r);padding:16px;margin-bottom:14px">
+      <div style="font-size:12px;opacity:0.8;margin-bottom:4px">Valor estimado ganado 2026</div>
+      <div style="font-size:28px;font-weight:700">${money(resultado2026)}</div>
+      <div style="font-size:13px;opacity:0.75;margin-top:4px">${animales.length} animales · ${crias.length} nacimientos · ${fallecidos.length} fallecidos</div>
+    </div>
+    <div style="background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-bottom:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px">📋 CIERRE 2025 — PUNTO DE PARTIDA</div>
+      ${row('Ganado inicio 2024',money(143000000))}
+      ${row('Ganado final 2025 ('+FIN2025.ganado_cabezas+' animales)',money(FIN2025.ganado_valor),'var(--green)')}
+      ${row('Valorización','+'+money(FIN2025.ganado_valor-143000000),'var(--green)')}
+      ${row('Ventas 2025',money(FIN2025.venta_animales))}
+      ${row('Drogas 2025','-'+money(FIN2025.drogas),'var(--red)')}
+      ${row('Trabajos 2025','-'+money(FIN2025.trabajos),'var(--red)')}
+      ${row('Compra animales 2025','-'+money(FIN2025.compra_animales),'var(--red)')}
+      ${row('Pérdidas 2025','-'+money(FIN2025.perdidas),'var(--red)')}
+      ${row('Amortización 2025','-'+money(FIN2025.amortizacion),'var(--red)')}
+      <div style="display:flex;justify-content:space-between;padding:12px 0 0;font-weight:700;font-size:15px">
+        <span>RESULTADO 2025</span><span style="color:var(--red)">Pérdida -${money(90412049)}</span>
+      </div>
+    </div>
+    <div style="background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-bottom:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px">📊 MOVIMIENTOS 2026 (acumulado)</div>
+      ${row('Base inicio 2026 ('+FIN2025.ganado_cabezas+' animales)',money(FIN2025.ganado_valor),'var(--green)')}
+      ${row('+ Compras ('+compras_n+' animales)','+'+money(totalCompras),'var(--green)')}
+      ${row('+ Nacimientos vivos',crias.length+' crías')}
+      ${row('- Fallecimientos ('+fallecidos.length+')','-'+money(totalFallecidos),'var(--red)')}
+      ${row('- Gastos y drogas','-'+money(totalGastos),'var(--red)')}
+      <div style="display:flex;justify-content:space-between;padding:12px 0 0;border-top:2px solid var(--border);font-weight:700;font-size:15px">
+        <span>VALOR FIN 2026</span><span style="color:${resultado2026>=FIN2025.ganado_valor?'var(--green)':'var(--red)'}">${money(resultado2026)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0 0;font-size:13px">
+        <span style="color:var(--text2)">${diferencia>=0?'▲ Ganancia':'▼ Pérdida'} vs inicio 2026</span>
+        <span style="font-weight:600;color:${diferencia>=0?'var(--green)':'var(--red)'}">${diferencia>=0?'+':''}${money(diferencia)}</span>
+      </div>
+    </div>
+    <div style="background:var(--surface);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);margin-bottom:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px">🚜 ACTIVOS FINCA (2025)</div>
+      ${row('Máquinas',money(FIN2025.maquinas))}
+      ${row('Alambres',money(FIN2025.alambres))}
+      ${row('Total activos',money(FIN2025.maquinas+FIN2025.alambres),'var(--green)',true)}
+    </div>`;
+}
+
+// ===== EXPORTAR PDF =====
+function exportarPDF(){
+  const titulo='Finca Valparaíso — Resumen '+new Date().getFullYear();
+  const totalVentas=ventas.reduce((s,v)=>s+(v.total||0),0);
+  const totalFallecidos=fallecidos.reduce((s,f)=>s+(f.valor||0),0);
+  const totalGastos=gastos.reduce((s,g)=>s+(g.valor||0),0);
+  function money(n){return'$'+new Intl.NumberFormat('es-CO').format(Math.abs(Math.round(n)));}
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${titulo}</title>
+  <style>body{font-family:Arial,sans-serif;padding:30px;color:#1a1a1a;max-width:700px;margin:0 auto}
+  h1{color:#2d6a4f;font-size:22px;border-bottom:2px solid #2d6a4f;padding-bottom:8px}
+  h2{color:#2d6a4f;font-size:16px;margin-top:24px;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+  th{background:#2d6a4f;color:#fff;padding:7px 10px;text-align:left}
+  td{padding:6px 10px;border-bottom:1px solid #e5e0d8}
+  tr:nth-child(even) td{background:#f5f2ed}
+  .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e5e0d8;font-size:14px}
+  .total{font-weight:700;font-size:15px;color:#2d6a4f}
+  .rojo{color:#c0392b}.verde{color:#2d6a4f}
+  @media print{button{display:none}}</style></head><body>
+  <h1>🐄 ${titulo}</h1>
+  <p style="color:#6b6560;font-size:13px">El Cairo, Valle del Cauca — Robinson Aristizábal · Generado: ${new Date().toLocaleDateString('es-CO')}</p>
+  <h2>Resumen general</h2>
+  <div class="row"><span>Total animales activos</span><span>${animales.length}</span></div>
+  <div class="row"><span>Hembras</span><span>${animales.filter(a=>a.tipo==='E').length}</span></div>
+  <div class="row"><span>Machos</span><span>${animales.filter(a=>a.tipo==='M').length}</span></div>
+  <div class="row"><span>Nacimientos 2026</span><span>${crias.length}</span></div>
+  <div class="row"><span>Fallecidos 2026</span><span>${fallecidos.length}</span></div>
+  <div class="row total"><span>Total ventas</span><span class="verde">${money(totalVentas)}</span></div>
+  <div class="row total"><span>Total gastos</span><span class="rojo">${money(totalGastos)}</span></div>
+  <div class="row total"><span>Pérdidas por fallecimientos</span><span class="rojo">${money(totalFallecidos)}</span></div>
+  <h2>Inventario completo (${animales.length} animales)</h2>
+  <table><thead><tr><th>N°</th><th>Nombre</th><th>Tipo</th><th>Ganadería</th><th>Último peso</th></tr></thead><tbody>
+  ${animales.sort((a,b)=>a.num-b.num).map(a=>{const u=a.pesos&&a.pesos.length?a.pesos[a.pesos.length-1]:null;return`<tr><td>${a.num}</td><td>${a.nombre}</td><td>${a.tipo==='E'?'♀ Hembra':'♂ Macho'}</td><td>${a.finca||''}</td><td>${u?u.kg+' kg':'-'}</td></tr>`;}).join('')}
+  </tbody></table>
+  <h2>Fallecimientos (${fallecidos.length})</h2>
+  <table><thead><tr><th>N°</th><th>Nombre</th><th>Tipo</th><th>Ganadería</th><th>Valor</th></tr></thead><tbody>
+  ${fallecidos.map(f=>`<tr><td>${f.num}</td><td>${f.nombre}</td><td>${f.tipo==='E'?'♀':'♂'}</td><td>${f.finca||''}</td><td class="rojo">$${fmt(f.valor)}</td></tr>`).join('')}
+  </tbody></table>
+  <h2>Ventas (${ventas.length})</h2>
+  <table><thead><tr><th>N°</th><th>Nombre</th><th>Peso</th><th>Total</th></tr></thead><tbody>
+  ${ventas.map(v=>`<tr><td>${v.num}</td><td>${v.nombre}</td><td>${v.peso} kg</td><td class="verde">$${fmt(v.total)}</td></tr>`).join('')}
+  </tbody></table>
+  <button onclick="window.print()" style="background:#2d6a4f;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:15px;cursor:pointer;margin-top:16px">🖨 Imprimir / Guardar PDF</button>
+  </body></html>`);
+  win.document.close();
+}
+
+// ===== MODALS =====
+function openModal(id){
+  updateDL();
+  document.getElementById(id).classList.add('show');
+  const today=new Date().toISOString().split('T')[0];
+  const fields={
+    'modal-animal':['a-fecha'],'modal-cria':['c-fecha'],'modal-fallecido':['f-fecha'],
+    'modal-venta':['v-fecha'],'modal-gasto':['g-fecha'],'modal-vacuna':['vac-fecha'],
+    'modal-medico':['med-fecha'],'modal-preniez':['pr-fecha-monta']
+  };
+  if(fields[id]&&!document.getElementById('edit-animal-id')?.value){
+    fields[id].forEach(f=>{const el=document.getElementById(f);if(el&&!el.value)el.value=today;});
+  }
+  if(id==='modal-animal'&&!document.getElementById('edit-animal-id').value){
+    document.getElementById('modal-animal-title').textContent='Nuevo Animal';
+    ['a-num','a-nombre','a-finca','a-potrero','a-padre','a-madre','a-crias','a-obs'].forEach(f=>{const el=document.getElementById(f);if(el)el.value='';});
+    document.getElementById('a-tipo').value='E';
+    document.getElementById('a-pesos-container').innerHTML='';
+    document.getElementById('a-foto-preview').classList.remove('show');
+    document.getElementById('a-foto').value='';
+  }
+}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');});
+});
+
+// ===== INIT =====
+renderResumen();
+renderInv();
+</script>
+</body>
+</html>
